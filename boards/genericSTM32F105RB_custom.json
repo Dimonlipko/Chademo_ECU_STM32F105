@@ -1,0 +1,23 @@
+{
+  "build": {
+    "core": "stm32",
+    "cpu": "cortex-m3",
+    "f_cpu": "72000000L",
+    "mcu": "stm32f105rbt6",
+    "variant": "STM32F1xx/F105R(8-B-C)T",
+    "product_line": "STM32F1xx"
+  },
+  "name": "Generic STM32F105RBT6",
+  "url": "https://www.st.com/en/microcontrollers-microprocessors/stm32f105rb.html",
+  "vendor": "ST",
+  "platform": "ststm32",
+  "upload": {
+    "protocol": "stlink",
+    "maximum_size": 131072,
+    "maximum_ram_size": 65536
+  },
+  "debug": {
+    "openocd_target": "stm32f1x"
+  },
+  "frameworks": ["arduino"]
+}
