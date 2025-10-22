@@ -17,6 +17,7 @@ meCAN2 can2;
 #define OUT1_pin PB11
 #define OUT2_pin PB10
 
+
 uint32_t timer_send = 0;
 
 
@@ -26,7 +27,7 @@ void setup() {
   Serial.begin(115200);
   delay(100);
   bool success1 = can1.begin(500, PB8, PB9, STD_ID_LEN);
-  bool success2 = can2.begin(500, PB5, PB6, STD_ID_LEN);
+  bool success2 = can2.begin(500, PB5, PB6, STD_ID_LEN); 
 
   if (success1) {
     Serial.println("CAN1 initialized successfully");
@@ -39,11 +40,12 @@ void setup() {
   } else {
     Serial.println("Failed to initialize CAN2");
   }
+  
 }
 
 void loop() {
  
-  if(millis() - timer_send >= 1000)
+  if(millis() - timer_send >= 500)
   {
     timer_send = millis();
     CAN1AliveStatus();

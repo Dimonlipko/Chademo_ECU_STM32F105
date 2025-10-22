@@ -11,24 +11,27 @@ extern meCAN2 can2;
 bool can1_send_06[10];
 uint8_t Soc = 0;
 
-
 void reportCAN(int canport,int id,int len,uint8_t data[])
 {
-  Serial1.print("CAN port = ");
-  Serial1.print(canport);
-  Serial1.print(" Rx <id> ");
-  Serial1.println(id, HEX);
+  Serial.print("CAN port = ");
+  Serial.print(canport);
+  Serial.print(" Rx <id> ");
+  Serial.println(id, HEX);
   for (int i=0 ;i<len;i++)
   {
-    Serial1.print(data[i], HEX);Serial1.print(" ");
+    Serial.print(data[i], HEX);Serial.print(" ");
   }
-  Serial1.println();
+  Serial.println();
 }
 
 void readCAN1() {
   uint8_t rxdata[8];
   can1.rxMsgLen = can1.receive(can1.id, can1.fltIdx, rxdata);
   if (can1.rxMsgLen < 1) return;
+
+  #ifdef DEBUG
+    reportCAN(1, can1.id, can1.rxMsgLen, rxdata);
+  #endif
 
   if(can1.id == 0x423)
   {
@@ -74,6 +77,10 @@ void readCAN2() {
   uint8_t rxdata[8];
   can2.rxMsgLen = can2.receive(can2.id, can2.fltIdx, rxdata);
   if (can2.rxMsgLen < 1) return;
+
+   #ifdef DEBUG
+    reportCAN(2, can2.id, can2.rxMsgLen, rxdata);
+  #endif
   //reportCAN(2, can2.id, can2.rxMsgLen, rxdata);
 
   chademo.handleCANFrame(millis(), can2.id);
@@ -97,7 +104,9 @@ void readCAN2() {
 
 void CAN1AliveStatus() {
   uint8_t out[8] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
-  bool result = can1.transmit(0x100, out, 8);
+  bool result = can1.transmit(0x001, out, 8);
+  bool result2 = can2.transmit(0x002, out, 8);
+  Serial.println("Send alive");
   //Serial.print("CAN1 Transmit = ");
   //Serial.println(result);
 }
