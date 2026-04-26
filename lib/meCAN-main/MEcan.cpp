@@ -453,17 +453,7 @@ void meCAN2::filterMask16Init(int bank, int idA, int maskA, int idB, int maskB) 
 
 void NVIC_Set_Priority(uint32_t IRQn, uint32_t priority)
 {
-    /* Check if the IRQn is valid */
-    if (IRQn < 0)
-    {
-        /* Set the priority for the Cortex-M4 system exceptions */
-        SCB->SHP[((uint32_t)(IRQn) & 0xF) - 4] = (priority & 0xF) << 4;
-    }
-    else
-    {
-        /* Set the priority for the device-specific peripherals */
-        NVIC->IP[IRQn] = (priority & 0xFF) << 4;
-    }
+    NVIC_SetPriority((IRQn_Type)IRQn, priority);
 }
 
 
